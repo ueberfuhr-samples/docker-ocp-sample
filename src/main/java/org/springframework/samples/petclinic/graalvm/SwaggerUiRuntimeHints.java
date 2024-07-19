@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.graalvm;
 
-import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 
