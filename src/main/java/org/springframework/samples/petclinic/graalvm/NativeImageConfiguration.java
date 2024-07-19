@@ -9,7 +9,8 @@ import org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvi
 @Configuration
 @ImportRuntimeHints({
     HsqlDbRuntimeHints.class,
-    TomcatRuntimeHints.class
+    TomcatRuntimeHints.class,
+    SwaggerUiRuntimeHints.class
 })
 @RegisterReflectionForBinding({
     BaseEntity.class,
