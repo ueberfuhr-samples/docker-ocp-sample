@@ -73,7 +73,7 @@ public class ExceptionControllerAdvice {
         return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
     }
 
-    private class ErrorInfo {
+    public class ErrorInfo {
         public final String className;
         public final String exMessage;
 
