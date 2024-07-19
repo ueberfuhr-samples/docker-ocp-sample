@@ -34,6 +34,8 @@ There are actuator health check and info routes as well:
 * [http://localhost:9966/petclinic/actuator/health](http://localhost:9966/petclinic/actuator/health)
 * [http://localhost:9966/petclinic/actuator/info](http://localhost:9966/petclinic/actuator/info)
 
+You could also build a [native image](native-image).
+
 ## OpenAPI REST API documentation presented here (after application start):
 
 You can reach the swagger UI with this URL
