@@ -11,3 +11,4 @@ COPY --from=build /usr/src/app/target/spring-petclinic-rest /app/spring-petclini
 EXPOSE 9966
 ENV CONTEXT_ROOT=/
 CMD ["/app/spring-petclinic-rest"]
+HEALTHCHECK --interval=5m --timeout=3s CMD curl -f http://localhost:9966/swagger-ui/index.html || exit 1

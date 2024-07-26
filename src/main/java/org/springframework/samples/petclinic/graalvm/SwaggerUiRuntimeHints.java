@@ -10,7 +10,8 @@ public class SwaggerUiRuntimeHints implements RuntimeHintsRegistrar {
         hints
             .resources()
             .registerPattern("swagger-ui.html")
-            .registerPattern("swagger-ui/**");
+            .registerPattern("swagger-ui/**")
+            .registerPattern("META-INF/resources/webjars/**");
     }
 
 }

@@ -26,6 +26,7 @@ public class HsqlDbRuntimeHints implements RuntimeHintsRegistrar {
             );
         hints
             .resources()
+            .registerPattern("db/hsqldb/**")
             .registerPattern("org/hsqldb/resources/information-schema.sql")
             .registerPattern("org/hsqldb/resources/lob-schema.sql")
             .registerResourceBundle("org.hsqldb.resources.sql-state-messages");
