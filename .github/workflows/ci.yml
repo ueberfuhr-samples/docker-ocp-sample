@@ -9,7 +9,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  build-app:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout from SCM
@@ -22,10 +22,32 @@ jobs:
           cache: maven
       - name: Build App
         run: mvn -B package --file pom.xml -Djacoco.skip=true -DdisableXmlReport=true
+      - name: Upload App
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: target/app.jar
+      - name: Upload Container Configuration Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: container
+          path: docker/**
 
+  build-container:
+    needs:
+      - build-app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore App
+        uses: actions/download-artifact@v4
+        with:
+          name: app
+      - name: Restore Container Configuration Files
+        uses: actions/download-artifact@v4
+        with:
+          name: container
       # (optionally) https://github.com/docker/buildx
       # (optionally) https://github.com/docker/metadata-action
-
       - name: Login to Docker Hub
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
