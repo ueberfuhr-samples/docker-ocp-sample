@@ -13,7 +13,7 @@ docker run --rm -p 8080:9966 -it spring-petclinic-rest:3.3.1-native
 
 This will run the native image build within a Docker container.
 
-*Hint:* Be aware that, for a native image, there are some [hints](../src/main/java/org/springframework/samples/petclinic/graalvm) necessary.
+*Hint:* Be aware that, for a native image, there are some [hints](../../src/main/java/org/springframework/samples/petclinic/graalvm) necessary.
 
 *Hint:* We could also use [Jib GraalVM Native Image Extension](https://github.com/GoogleContainerTools/jib-extensions/tree/master/first-party/jib-native-image-extension-maven)
 to build a native image, but this would run the build on the host machine, which means we need
