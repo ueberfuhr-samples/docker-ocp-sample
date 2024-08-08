@@ -37,7 +37,7 @@ jobs:
       - name: Retrieve project version from pom
         run: echo "PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Show extracted Maven project version
-        run: echo 'Project version is $PROJECT_VERSION'
+        run: echo 'Project version is ${{ env.PROJECT_VERSION }}'
       - name: Build Container
         uses: docker/build-push-action@v6
         with:
