@@ -20,8 +20,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Build App
-        run: mvn -B package --file pom.xml -Djacoco.skip=true -DdisableXmlReport=true
+      #- name: Build App
+      #  run: mvn -B package --file pom.xml -Djacoco.skip=true -DdisableXmlReport=true
 
       # (optionally) https://github.com/docker/buildx
       # (optionally) https://github.com/docker/metadata-action
@@ -32,6 +32,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Retrieve project version from pom
+        run: mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout
       - name: Retrieve project version from pom
         run: echo "PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Show extracted Maven project version
