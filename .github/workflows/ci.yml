@@ -33,9 +33,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Retrieve project version from pom
-        run: echo "project_version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+        run: echo "PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Show extracted Maven project version
-        run: echo 'Project version is ${{ project_version }}'
+        run: echo 'Project version is $PROJECT_VERSION'
       - name: Build Container
         uses: docker/build-push-action@v6
         with:
@@ -43,9 +43,9 @@ jobs:
           file: ./docker/Dockerfile
           tags: |
             ralfueberfuhr/spring-petclinic-rest:latest
-            ralfueberfuhr/spring-petclinic-rest:${{ project_version }}
+            ralfueberfuhr/spring-petclinic-rest:$PROJECT_VERSION
           labels: |
             repository=${{ github.repositoryUrl }}
           push: ${{ github.event_name != 'pull_request' }}
       - name: Write Summary
-        run: echo "Successfully built container image 'ralfueberfuhr/spring-petclinic-rest:${{ project_version }}'" >> $GITHUB_STEP_SUMMARY
+        run: echo "Successfully built container image 'ralfueberfuhr/spring-petclinic-rest:$PROJECT_VERSION'" >> $GITHUB_STEP_SUMMARY
