@@ -20,8 +20,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      #- name: Build App
-      #  run: mvn -B package --file pom.xml -Djacoco.skip=true -DdisableXmlReport=true
+      - name: Build App
+        run: mvn -B package --file pom.xml -Djacoco.skip=true -DdisableXmlReport=true
 
       # (optionally) https://github.com/docker/buildx
       # (optionally) https://github.com/docker/metadata-action
@@ -33,8 +33,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Retrieve project version from pom
-        run: echo "PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)"
-      - name: Retrieve project version from pom
         run: echo "PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Show extracted Maven project version
         run: echo 'Project version is ${{ env.PROJECT_VERSION }}'
@@ -45,9 +43,9 @@ jobs:
           file: ./docker/Dockerfile
           tags: |
             ralfueberfuhr/spring-petclinic-rest:latest
-            ralfueberfuhr/spring-petclinic-rest:$PROJECT_VERSION
+            ralfueberfuhr/spring-petclinic-rest:${{ env.PROJECT_VERSION }}
           labels: |
             repository=${{ github.repositoryUrl }}
           push: ${{ github.event_name != 'pull_request' }}
       - name: Write Summary
-        run: echo "Successfully built container image 'ralfueberfuhr/spring-petclinic-rest:$PROJECT_VERSION'" >> $GITHUB_STEP_SUMMARY
+        run: echo "Successfully built container image 'ralfueberfuhr/spring-petclinic-rest:${{ env.PROJECT_VERSION }}'" >> $GITHUB_STEP_SUMMARY
