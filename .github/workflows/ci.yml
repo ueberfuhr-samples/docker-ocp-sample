@@ -27,6 +27,11 @@ jobs:
         with:
           name: app
           path: target/app.jar
+      - name: Upload POM
+        uses: actions/upload-artifact@v4
+        with:
+          name: pom
+          path: pom.xml
       - name: Upload Container Configuration Files
         uses: actions/upload-artifact@v4
         with:
@@ -38,14 +43,20 @@ jobs:
       - build-app
     runs-on: ubuntu-latest
     steps:
+      - run: ls -a
       - name: Restore App
         uses: actions/download-artifact@v4
         with:
           name: app
+      - name: Restore POM
+        uses: actions/download-artifact@v4
+        with:
+          name: pom
       - name: Restore Container Configuration Files
         uses: actions/download-artifact@v4
         with:
           name: container
+      - run: ls -a
       # (optionally) https://github.com/docker/buildx
       # (optionally) https://github.com/docker/metadata-action
       - name: Login to Docker Hub
