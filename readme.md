@@ -22,7 +22,7 @@ docker run --rm -p 8080:8080 -it spring-petclinic-rest:latest
 
 The native image build consists of 3 steps in 2 Dockerfiles:
 
-1. Prepare the build container image. (only once, can be done manually) - see [`Dockerfile-BuilderImage`](docker/native-image/Dockerfile-BaseImage)
+1. Prepare the build container image. (only once, can be done manually) - see [`Dockerfile-BuilderImage`](docker/native-image/Dockerfile-BuilderImage)
 2. Use the build container to build the native image of the application  - see [`Dockerfile`](docker/native-image/Dockerfile)
 3. Build the runtime container image that executes the native image of the application - see [`Dockerfile`](docker/native-image/Dockerfile)
 
