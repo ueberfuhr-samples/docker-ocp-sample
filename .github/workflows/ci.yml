@@ -8,6 +8,11 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '**/*.md'
+      - '.gitignore'
+      - '.editorconfig'
+      - '.github/workflows/native-image.yml'
 jobs:
   build-app:
     runs-on: ubuntu-latest
