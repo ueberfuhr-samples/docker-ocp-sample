@@ -14,7 +14,7 @@ mvn clean package
 # build the image
 docker build -t spring-petclinic-rest:latest -f docker/Dockerfile .
 # run the container
-docker run --rm -p 8080:9966 -it spring-petclinic-rest:latest
+docker run --rm -p 8080:8080 -it spring-petclinic-rest:latest
 # open http://localhost:8080
 ```
 
@@ -36,7 +36,7 @@ docker build -t $BUILDER_IMAGE -f docker/native-image/Dockerfile-BuilderImage --
 # step2+3:  to build the application image
 docker build --build-arg BUILDER_IMAGE -t spring-petclinic-rest:latest-native -f docker/native-image/Dockerfile .
 # run the container
-docker run --rm -p 8080:9966 -it spring-petclinic-rest:latest-native
+docker run --rm -p 8080:8080 -it spring-petclinic-rest:latest-native
 # open http://localhost:8080
 ```
 
