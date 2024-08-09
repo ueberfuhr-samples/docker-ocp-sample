@@ -2,7 +2,7 @@
 ARG BUILDER_IMAGE=ghcr.io/graalvm/graalvm-ce:ol9-java17-maven-22.3.3
 FROM ${BUILDER_IMAGE} AS build
 WORKDIR /usr/src/app
-COPY ../.. .
+COPY . .
 RUN mvn clean package -Pnative -Dspring.profiles.active=hsqldb,spring-data-jpa -DskipTests
 
 # Second stage: Lightweight debian-slim image
