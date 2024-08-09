@@ -5,9 +5,23 @@
 
 This project is a detached fork of [Spring's pet-clinic sample](https://github.com/spring-petclinic/spring-petclinic-rest).
 
-## JVM Image Build
+## Run the app in the pre-built container images
 
-To build the container, just run
+We can find the pre-built container images on [DockerHub](https://hub.docker.com/repository/docker/ralfueberfuhr/spring-petclinic-rest).
+We just have to pull them and run a container.
+
+```bash
+# we could also use ralfueberfuhr/spring-petclinic-rest:latest-native which runs faster
+docker pull ralfueberfuhr/spring-petclinic-rest:latest
+docker run --rm -p 8080:8080 ralfueberfuhr/spring-petclinic-rest:latest
+# open http://localhost:8080/pet-clinic
+```
+
+## Build container locally
+
+### JVM Image Build
+
+To build the container, we have to run the Maven and the Docker build:
 
 ```bash
 # build the application JAR
@@ -15,11 +29,11 @@ mvn clean package
 # build the image
 docker build -t spring-petclinic-rest:latest -f docker/Dockerfile .
 # run the container
-docker run --rm -p 8080:8080 -it spring-petclinic-rest:latest
-# open http://localhost:8080
+docker run --rm -p 8080:8080 spring-petclinic-rest:latest
+# open http://localhost:8080/pet-clinic
 ```
 
-## Native Image Build
+### Native Image Build
 
 The native image build consists of 3 steps in 2 Dockerfiles:
 
@@ -37,11 +51,11 @@ docker build -t $BUILDER_IMAGE -f docker/native-image/Dockerfile-BuilderImage --
 # step2+3:  to build the application image
 docker build --build-arg BUILDER_IMAGE -t spring-petclinic-rest:latest-native -f docker/native-image/Dockerfile .
 # run the container
-docker run --rm -p 8080:8080 -it spring-petclinic-rest:latest-native
-# open http://localhost:8080
+docker run --rm -p 8080:8080 spring-petclinic-rest:latest-native
+# open http://localhost:8080/pet-clinic
 ```
 
-*Hint:* Be aware that, for a native image, there are some [hints](src/main/java/org/springframework/samples/petclinic/graalvm) necessary.
+*Hint:* We need to be aware that, for a native image, there are some [hints](src/main/java/org/springframework/samples/petclinic/graalvm) necessary.
 
 *Hint:* We could also use [Jib GraalVM Native Image Extension](https://github.com/GoogleContainerTools/jib-extensions/tree/master/first-party/jib-native-image-extension-maven)
 to build a native image, but this would run the build on the host machine, which means we need

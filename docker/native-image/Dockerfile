@@ -11,7 +11,7 @@ FROM debian:bookworm-slim
 WORKDIR /app
 COPY --from=build /usr/src/app/target/spring-petclinic-rest /app/spring-petclinic-rest
 EXPOSE 8080
-ENV CONTEXT_ROOT=/
+ENV CONTEXT_ROOT=/pet-clinic
 CMD ["/app/spring-petclinic-rest"]
 HEALTHCHECK --interval=5m --timeout=3s CMD curl -f http://localhost:8080/swagger-ui/index.html || exit 1
 
