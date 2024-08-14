@@ -25,7 +25,7 @@ parameters:
     description: database user password
     generate: expression
     from: "[\\w\\A]{12}"
-  - name: DB
+  - name: DB_NAME
     description: database name
     value: "petclinic"
 

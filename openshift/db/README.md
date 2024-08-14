@@ -55,7 +55,7 @@ oc process --parameters -f ConfigObjects.yaml
 oc process -f ConfigObjects.yaml --param=PW=test
 ```
 
-So, all together, we simply apply the secret by the following command:
+So, all together, we simply apply the configuration by the following command:
 
 ```bash
 oc process -f ConfigObjects.yaml | oc apply -f -
