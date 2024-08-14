@@ -1,0 +1,22 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: db-route-template
+objects:
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      labels:
+        app: petclinic
+      name: petclinic-route
+    spec:
+      host: ${HOST}
+      to:
+        kind: Service
+        name: petclinic-service
+      port:
+        targetPort: 8080
+parameters:
+  - name: HOST
+    description: The host name for the database.
+    required: true

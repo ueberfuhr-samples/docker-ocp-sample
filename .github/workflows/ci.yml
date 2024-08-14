@@ -13,6 +13,7 @@ on:
       - '.gitignore'
       - '.editorconfig'
       - '.github/workflows/native-image.yml'
+      - 'openshift/**'
 jobs:
   build-app:
     runs-on: ubuntu-latest

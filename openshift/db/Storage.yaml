@@ -1,0 +1,32 @@
+# A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes.
+# It is a resource in the cluster just like a node is a cluster resource.
+# PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.
+# ONLY PROVIDED BY ADMINISTRATOR
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: postgres-pv
+#  namespace: workshop-openshift
+#spec:
+#  capacity:
+#    storage: 1Gi
+#  accessModes:
+#    - ReadWriteOnce
+#  hostPath:
+#    path: "/mnt/data"
+#---
+# A PersistentVolumeClaim (PVC) is a request for storage by a user.
+# It is similar to a Pod. Pods consume node resources and PVCs consume PV resources.
+# Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: workshop-openshift
+spec:
+  accessModes:
+    # only one pod!
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
