@@ -1,28 +1,38 @@
-# Provisioning Postgres Database in OpenShift
+# Deploying the application to OpenShift
 
-Typically, applications need a (relational) database to store their values.
-Such a database could run
+To get the app deployed, we need the following steps:
 
-- **in the same _Pod_ as the application (same container or another one):**\
+1. Build the container images and store them into a container registry.\
+   _(This is already done by GitHub actions.)_
+2. Setup the database.\
+   _(We can find instructions [here](../db/README.md).)_
+3. Create a _Pod_, a _Service_ and a _Route_.\
+   _(See the instructions below.)_
+
+## Create a _Pod_ (_Deployment_)
+
+
+
+- **in the same _Pod_ as the application (same container or another one):**
   This is not recommended because application and database then share the same lifecycle. Each instance of the application then has its own database.
   This scenario is the default, when we deploy Spring Boot apps with default properties to a container.
 - **in another _Pod_ in the same project:**
-  - **create a deployment manually:**\
+  - **create a deployment manually:** 
     This is low-level, i.e. it needs a lot of configuration.
-  - **using an OpenShift _Operator_ (e.g. [Crunchy Data](https://github.com/CrunchyData/postgres-operator)):**\
+  - **using an OpenShift _Operator_ (e.g. [Crunchy Data](https://github.com/CrunchyData/postgres-operator)):**
     This is hgh-level, i.e. it provides a default solution for a default problem
-- **run the database externally (not managed by OpenShift):**\
+- **run the database externally (not managed by OpenShift):**
   This might be the way to go on the road to production, because production databases should not be replaced automatically (_pets-vs-cattle_).
   But for testing purposes, it is not always possible to get an external database provided.
 
 When the database is managed by OpenShift, we need a [_Persistent Volume_ (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/),
 which we can get by creating a [_PersistentVolumeClaim_ (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims). 
 
+For details, we could also read [this article](https://zesty.co/blog/deploy-databases-kubernetes/).
+
 ## Manual Deployment
 
 So here we go, we now deploy the given configs in the given order.
-We deploy each step manually, so we do not shortcut it by installing it as
-a Stateful Set. We could find details about that in [this article](https://zesty.co/blog/deploy-databases-kubernetes/).
 
 ### _PersistentVolumeClaim_ to get persistent storage
 
@@ -39,7 +49,7 @@ oc describe pvc postgres-pvc
   Normal  WaitForFirstConsumer  12s (x3 over 36s)  persistentvolume-controller  waiting for first consumer to be created before binding
 ```
 
-### Configuration Objects (_Secret_ and _ConfigMap) to configure the database
+### _Secret_ to configure the database
 
 We here use a [_Template_](https://docs.openshift.com/container-platform/4.16/openshift_images/using-templates.html)
 to create the secret. This allows to specify the concrete secret's values by passing command line arguments instead of storing them in the SCM.

@@ -1,0 +1,35 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: db-settings-template
+objects:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: db-credentials
+    type: Opaque
+    stringData:
+      username: "${{USER}}"
+      password: "${{PW}}"
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: db-settings
+    data:
+      database.name: "${DB}"
+      database.driver: "org.postgresql.Driver"
+      database.type: "POSTGRESQL"
+      database.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+      database.url: "jdbc:postgresql://localhost:5432/${DB}"
+parameters:
+  - name: USER
+    description: database user name
+    value: "user"
+  - name: PW
+    description: database user password
+    generate: expression
+    from: "[\\w\\A]{12}"
+  - name: DB
+    description: database name
+    value: "petclinic"
+

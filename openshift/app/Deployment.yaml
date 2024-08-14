@@ -24,3 +24,33 @@ spec:
           value: /
         - name: SPRING_PROFILES_ACTIVE
           value: cloud
+        - name: DB_DS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-settings
+              key: username
+        - name: DB_DS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-settings
+              key: password
+        - name: DB_DS_DRIVERCLASS
+          valueFrom:
+            configMapKeyRef:
+              name: db-settings
+              key: database.driver
+        - name: DB_JPA_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: db-settings
+              key: database.type
+        - name: DB_JPA_DATABASE_PLATFORM
+          valueFrom:
+            configMapKeyRef:
+              name: db-settings
+              key: database.dialect
+        - name: DB_DS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: db-settings
+              key: database.url

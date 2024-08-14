@@ -19,25 +19,35 @@ spec:
         image: postgres:16.4
         ports:
         - containerPort: 5432
+        # see https://hub.docker.com/_/postgres
         env:
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
-                name: db-settings
+                name: db-credentials
                 key: username
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: db-settings
+                name: db-credentials
                 key: password
           - name: POSTGRES_DB
             valueFrom:
-              secretKeyRef:
+              configMapKeyRef:
                 name: db-settings
-                key: database
-          - name: POSTGRES_INITDB_ARGS
-            value: ""
+                key: database.name
+          #- name: POSTGRES_INITDB_ARGS
+          #  value: ""
+          # "/var/lib/postgresql/data" is the default, but this is mounted, which is not recommended and will not work
+          # so we use a subdirectory here
           - name: PGDATA
-            value: ""
+            value: "/var/lib/postgresql/data/pgdata"
           - name: POSTGRES_HOST_AUTH_METHOD
             value: password
+        volumeMounts:
+          - mountPath: "/var/lib/postgresql/data" # see PGDATA env var
+            name: "db-storage" # see below
+      volumes:
+        - name: "db-storage"
+          persistentVolumeClaim:
+            claimName: postgres-pvc

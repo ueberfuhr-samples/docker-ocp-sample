@@ -60,3 +60,7 @@ docker run --rm -p 8080:8080 spring-petclinic-rest:latest-native
 *Hint:* We could also use [Jib GraalVM Native Image Extension](https://github.com/GoogleContainerTools/jib-extensions/tree/master/first-party/jib-native-image-extension-maven)
 to build a native image, but this would run the build on the host machine, which means we need
 a host architecture that is equal to the runtime architecture.
+
+## Deploy to K8s / OpenShift
+
+See the instructions [here](openshift/app/README.md).

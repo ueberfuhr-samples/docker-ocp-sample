@@ -25,7 +25,8 @@ metadata:
   namespace: workshop-openshift
 spec:
   accessModes:
+    # only one pod!
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: 1Gi
