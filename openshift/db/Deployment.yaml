@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:16.4
+        image: ralfueberfuhr/spring-petclinic-db:latest
         ports:
         - containerPort: 5432
         # see https://hub.docker.com/_/postgres

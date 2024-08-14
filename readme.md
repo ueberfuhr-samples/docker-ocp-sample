@@ -7,7 +7,10 @@ This project is a detached fork of [Spring's pet-clinic sample](https://github.c
 
 ## Run the app in the pre-built container images
 
-We can find the pre-built container images on [DockerHub](https://hub.docker.com/repository/docker/ralfueberfuhr/spring-petclinic-rest).
+We can find the pre-built container images on DockerHub:
+- [Application Container](https://hub.docker.com/repository/docker/ralfueberfuhr/spring-petclinic-rest).
+- [Database Container](https://hub.docker.com/repository/docker/ralfueberfuhr/spring-petclinic-db).
+
 We just have to pull them and run a container.
 
 ```bash
