@@ -17,10 +17,6 @@ objects:
       name: db-settings
     data:
       database.name: "${DB}"
-      database.driver: "org.postgresql.Driver"
-      database.type: "POSTGRESQL"
-      database.dialect: "org.hibernate.dialect.PostgreSQLDialect"
-      database.url: "jdbc:postgresql://localhost:5432/${DB}"
 parameters:
   - name: USER
     description: database user name

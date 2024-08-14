@@ -1,0 +1,26 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: app-settings-template
+objects:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: app-settings
+    data:
+      database.name: "${DB_NAME}"
+      database.driver: "org.postgresql.Driver"
+      database.type: "POSTGRESQL"
+      database.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+      database.url: "jdbc:postgresql://${DB_SERVICE_IP}:${DB_SERVICE_PORT}/${DB_NAME}"
+parameters:
+  - name: DB_NAME
+    description: database name
+    value: "petclinic"
+  - name: DB_SERVICE_PORT
+    description: the port of the database service
+    value: "5432"
+  - name: DB_SERVICE_IP
+    description: "the IP of the database service (find out: 'oc get service petclinic-db-service -o jsonpath='{.spec.clusterIP}')"
+    required: true
+
