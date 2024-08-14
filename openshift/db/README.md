@@ -39,7 +39,7 @@ oc describe pvc postgres-pvc
   Normal  WaitForFirstConsumer  12s (x3 over 36s)  persistentvolume-controller  waiting for first consumer to be created before binding
 ```
 
-### Configuration Objects (_Secret_ and _ConfigMap) to configure the database
+### Configuration Objects (_Secret_ and _ConfigMap_) to configure the database
 
 We here use a [_Template_](https://docs.openshift.com/container-platform/4.16/openshift_images/using-templates.html)
 to create the secret. This allows to specify the concrete secret's values by passing command line arguments instead of storing them in the SCM.
@@ -84,11 +84,10 @@ oc port-forward $(oc get pods -o name --selector='app=db') 5432
 
 
 
-### _Service_ and _Route_
+### _Service_
 
-To access the database using database tools, we simply create a _Service_ and a _Route_:
+To connect to the database using a static IP address, we create a service
 
 ```bash
 oc apply -f Service.yaml
-oc process -f Route.yaml --param=HOST=<your-host-here> | oc apply -f -
 ```

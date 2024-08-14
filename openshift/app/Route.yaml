@@ -1,13 +1,22 @@
-apiVersion: route.openshift.io/v1
-kind: Route
+kind: Template
+apiVersion: template.openshift.io/v1
 metadata:
-  labels:
-    app: petclinic 
-  name: petclinic-route
-spec:
-  host: petclinic-ueberfuhr.apps.devqs.ars.de
-  to:
-    kind: Service
-    name: petclinic-service
-  port:
-    targetPort: 8080
+  name: db-route-template
+objects:
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      labels:
+        app: petclinic
+      name: petclinic-route
+    spec:
+      host: ${HOST}
+      to:
+        kind: Service
+        name: petclinic-service
+      port:
+        targetPort: 8080
+parameters:
+  - name: HOST
+    description: The host name for the database.
+    required: true
