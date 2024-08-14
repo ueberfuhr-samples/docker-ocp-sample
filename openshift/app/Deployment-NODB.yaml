@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: petclinic-deployment
+  name: petclinic-deployment-without-db-binding
   labels:
     app: petclinic
 spec:
@@ -18,17 +18,24 @@ spec:
       - name: petclinic
         image: ralfueberfuhr/spring-petclinic-rest:latest
         imagePullPolicy: Always
+        # https://medium.com/@sats17/resolving-kubernetes-pod-oomkilled-errors-for-java-spring-boot-applications-conquering-out-of-7a48e1f6db04
+        resources:
+          requests:
+            memory: "400Mi"
+            cpu: "200m"
+          limits:
+            memory: "1300Mi"
+            cpu: "600m"
         ports:
         - containerPort: 8080
         env:
+        # https://medium.com/@sats17/resolving-kubernetes-pod-oomkilled-errors-for-java-spring-boot-applications-conquering-out-of-7a48e1f6db04
+        - name: JAVA_OPTS
+          value: "-XX:MaxRAMPercentage=65.0 -XX:MinRAMPercentage=60.0"
         - name: CONTEXT_ROOT
           value: "/"
-        # add logprops profile to get all properties logged out
-        - name: SPRING_PROFILES_ACTIVE
-          value: "cloud,spring-data-jpa,logprops"
-        # activate this to get trace logging enabled for Hibernate
         #- name: SPRING_APPLICATION_JSON
-        #  value: '{"logging":{"level":{"org":{"hibernate":"TRACE"}}}}'
+        #  value: '{"logging":{"level":{"root":"TRACE"}}}'
         - name: DB_DS_USERNAME
           valueFrom:
             secretKeyRef:
@@ -63,16 +70,4 @@ spec:
           value: "/"
         - name: PROBES_PORT
           value: "8081"
-        livenessProbe:
-          httpGet:
-            port: 8081
-            path: "/health/liveness"
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            port: 8081
-            path: "/health/readiness"
-          initialDelaySeconds: 5
-          periodSeconds: 10
 

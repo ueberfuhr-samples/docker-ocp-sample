@@ -43,8 +43,13 @@ jobs:
         with:
           name: container
           path: docker/**
+      - name: Upload Database Configuration Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: database
+          path: src/main/resources/db/**
 
-  build-container:
+  build-app-container:
     needs:
       - build-app
     runs-on: ubuntu-latest
@@ -88,3 +93,49 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
       - name: Write Summary
         run: echo "Successfully built container image 'ralfueberfuhr/spring-petclinic-rest:${{ env.PROJECT_VERSION }}'" >> $GITHUB_STEP_SUMMARY
+  build-database-container:
+    needs:
+      - build-app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore Database Configuration
+        uses: actions/download-artifact@v4
+        with:
+          name: database
+          path: src/main/resources/db
+      - name: Restore POM
+        uses: actions/download-artifact@v4
+        with:
+          name: pom
+      - name: Restore Container Configuration Files
+        uses: actions/download-artifact@v4
+        with:
+          name: container
+          path: docker
+      # (optionally) https://github.com/docker/buildx
+      # (optionally) https://github.com/docker/metadata-action
+      - name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Retrieve project version from pom
+        run: echo "PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      - name: Show extracted Maven project version
+        run: echo 'Project version is ${{ env.PROJECT_VERSION }}'
+      - name: Build Container
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/db/Dockerfile
+          tags: |
+            ralfueberfuhr/spring-petclinic-db:latest
+            ralfueberfuhr/spring-petclinic-db:latest-postgresql
+            ralfueberfuhr/spring-petclinic-db:${{ env.PROJECT_VERSION }}
+            ralfueberfuhr/spring-petclinic-db:${{ env.PROJECT_VERSION }}-postgresql
+          labels: |
+            repository=${{ github.repositoryUrl }}
+          push: ${{ github.event_name != 'pull_request' }}
+      - name: Write Summary
+        run: echo "Successfully built container image 'ralfueberfuhr/spring-petclinic-db:${{ env.PROJECT_VERSION }}'" >> $GITHUB_STEP_SUMMARY
