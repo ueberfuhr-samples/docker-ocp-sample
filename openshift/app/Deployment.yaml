@@ -4,6 +4,9 @@ metadata:
   name: petclinic-deployment
   labels:
     app: petclinic
+  annotations:
+    # show connector arrow in UI
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"db"}]'
 spec:
   replicas: 1
   selector:

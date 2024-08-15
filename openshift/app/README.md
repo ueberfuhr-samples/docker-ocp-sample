@@ -59,6 +59,9 @@ As simple as possible:
 oc apply -f Deployment.yaml
 ```
 
+**Note:** If accessing the database fails, we could also apply [`Deployment-InternalDB.yaml`](Deployment-InternalDB.yaml).
+This allows to look into the logs where all application properties and environment variables are printed out on startup.
+
 ### _Service_ and _Route_
 
 To make the application public, we need to create a _Service_ and a _Route_.
