@@ -59,7 +59,7 @@ spec:
               key: database.dialect
         - name: DB_DS_URL
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: petclinic-db-pguser-petclinic-db
               key: jdbc-uri
         - name: PROBES_CONTEXT_ROOT
