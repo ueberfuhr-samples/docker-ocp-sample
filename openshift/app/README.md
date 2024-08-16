@@ -6,7 +6,7 @@ To get the app deployed, we need the following steps:
    _(This is already done by GitHub actions.)_
 2. Setup the database.\
    _(We can find instructions [here](../db/README.md).)_
-3. Create a _ConfigMap_ and a _Pod_.\
+3. Create a _ConfigMap_ and a _Pod_.
    - If we created the database _Pod_ and _Service_ manually, we can find the files and instructions [here](1-pod-service).
    - If we used the Crunchy Operator, we can find the files and instructions [here](2-crunchy-operator).
 4. Create a _Service_ and a _Route_.\
