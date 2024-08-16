@@ -1,8 +1,10 @@
-# Provisioning Database Dependencies
+# Installing the database as a _Pod_
+
+## Provisioning Database Dependencies
 
 First, we need a storage and external configuration that is used by the database container and could also be shared with others.
 
-## _PersistentVolumeClaim_ to get persistent storage
+### _PersistentVolumeClaim_ to get persistent storage
 
 To request a persistent storage for the database, we need to run:
 
@@ -44,4 +46,28 @@ So, all together, we simply apply the configuration by the following command:
 
 ```bash
 oc process -f ConfigObjects.yaml | oc apply -f -
+```
+
+## Install the Database
+
+We need a _Deployment_ and a _Service. Installation is as simple as possible:
+
+```bash
+oc apply -f Deployment.yaml && oc apply -f Service.yaml
+```
+
+## Access the Database
+
+We can then connect to the database using port forwarding:
+
+```bash
+oc port-forward $(oc get pods -o name --selector='app=db') 5432
+# URL: jdbc:postgresql://localhost:5432/petclinic
+# Credentials: see secret "db-credentials"
+```
+
+We can also connect to the pod using SSH:
+
+```bash
+oc rsh $(oc get pods -o name --selector='app=db')
 ```

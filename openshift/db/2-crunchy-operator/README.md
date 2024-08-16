@@ -1,5 +1,7 @@
 # Installing the database with the Postgresql Operator
 
+** Note:** This currently does not work because of errors on pulling images in OpenShift.
+
 The [Postgres Operator from Crunchy Data (PGO)](https://github.com/CrunchyData/postgres-operator)
 is a declarative solution that automatically manages PostgreSQL clusters.
 
