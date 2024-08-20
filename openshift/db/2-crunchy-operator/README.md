@@ -12,3 +12,11 @@ To learn about Operators in general, we can read [this article](https://www.redh
 First, we should check that the operator is installed in our OpenShift cluster:
 
 ![Operator in OpenShift UI](img/operator.png)
+
+## Generate the Postgres Cluster
+
+We jsut run
+
+```bash
+oc apply -f Cluster.yaml
+```
