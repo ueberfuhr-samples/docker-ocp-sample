@@ -63,7 +63,11 @@ We can then connect to the database using port forwarding:
 ```bash
 oc port-forward $(oc get pods -o name --selector='app=db') 5432
 # URL: jdbc:postgresql://localhost:5432/petclinic
-# Credentials: see secret "db-credentials"
+# get username
+oc get secret db-credentials -o jsonpath='{.data}' | jq -r '.["username"]' | base64 --decode
+# get password
+oc get secret db-credentials -o jsonpath='{.data}' | jq -r '.["password"]' | base64 --decode
+
 ```
 
 We can also connect to the pod using SSH:

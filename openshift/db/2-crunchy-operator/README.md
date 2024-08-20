@@ -20,3 +20,16 @@ We jsut run
 ```bash
 oc apply -f Cluster.yaml
 ```
+
+## Access the Database
+
+We can then connect to the database using port forwarding:
+
+```bash
+oc port-forward $(oc get pods -o name --selector='postgres-operator.crunchydata.com/cluster=petclinic-db,postgres-operator.crunchydata.com/instance-set=instance1') 5432
+# URL: jdbc:postgresql://localhost:5432/petclinic-db
+# get username
+oc get secret petclinic-db-pguser-petclinic-db -o jsonpath='{.data}' | jq -r '.["user"]' | base64 --decode
+# get password
+oc get secret petclinic-db-pguser-petclinic-db -o jsonpath='{.data}' | jq -r '.["password"]' | base64 --decode
+```
