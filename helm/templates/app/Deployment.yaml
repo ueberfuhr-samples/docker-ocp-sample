@@ -72,12 +72,12 @@ spec:
           httpGet:
             port: 8081
             path: "/health/liveness"
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          initialDelaySeconds: 30
+          periodSeconds: 60
         readinessProbe:
           httpGet:
             port: 8081
             path: "/health/readiness"
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          initialDelaySeconds: 30
+          periodSeconds: 60
 

@@ -4,10 +4,10 @@ petclinicDatabase:
     name: "petlinic"
     storage:
       claimName: "postgres-pvc"
-      mountPath: "/var/lib/postgresql/data"
+#      mountPath: "/var/lib/postgresql/data"
 # this is optional - if not specified, it is randomly created
-#    credential:
-#      username: "user"
+    credential:
+      username: "user"
 #      password: ""
 petclinicApp:
   image: "ralfueberfuhr/spring-petclinic-rest:latest"

@@ -43,8 +43,11 @@ We can find details in the [Helm Documentation](https://helm.sh/docs/topics/char
 The Kubernetes YAML templates need to be transferred to Go templates.
 We can find a good tutorial in the [Red Hat Blog](https://www.redhat.com/en/blog/from-templates-to-openshift-helm-charts). 
 
+The database service must be a `NodePort`, i.e. it is not available via a static IP, but a static port number (between 30000 and 32767).
+(for details, see this [sample solution](https://stackoverflow.com/questions/67926772/how-to-connect-to-ibm-mq-deployed-to-openshift/67927780#67927780).)
+
 Then, we can install the helm chart using
 ```bash
 # --values overwrites default values (helpful for staging)
-helm install petclinic . --values=ENV_LOCAL_CRC.yaml
+helm install petclinic . --values=ENV_LOCAL_CRC.yaml -n "<openshift-project>"
 ```
