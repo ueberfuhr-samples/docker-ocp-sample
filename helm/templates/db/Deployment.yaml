@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: postgres
+        image: {{.Values.petclinicDatabase.image | quote}}
+        ports:
+        - containerPort: 5432
+        # see https://hub.docker.com/_/postgres
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: db-settings
+                key: database.name
+          #- name: POSTGRES_INITDB_ARGS
+          #  value: ""
+          # "/var/lib/postgresql/data" is the default, but this is mounted, which is not recommended and will not work
+          # so we use a subdirectory here
+          - name: PGDATA
+            value: {{default "/var/lib/postgresql/data" .Values.petclinicDatabase.config.storage.mountPath | quote }}
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: password
+        volumeMounts:
+          - mountPath: {{default "/var/lib/postgresql/data" .Values.petclinicDatabase.config.storage.mountPath | quote }} # see PGDATA env var
+            name: "db-storage"
+      volumes:
+        - name: "db-storage"
+          persistentVolumeClaim:
+            claimName: {{.Values.petclinicDatabase.config.storage.claimName}}

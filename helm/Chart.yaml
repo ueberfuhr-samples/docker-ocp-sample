@@ -1,0 +1,7 @@
+apiVersion: v2
+name: petclinic-oci
+version: 0.0.1 # the version of this Chart
+description: Petclinic Chart
+type: application #  or library
+appVersion: "3.3.1" # the version of the app (see pom.xml)
+home: https://github.com/ueberfuhr-samples/docker-ocp-sample

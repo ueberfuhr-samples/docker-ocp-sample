@@ -1,0 +1,3 @@
+petclinicApp:
+  route:
+    host: apps-crc.testing

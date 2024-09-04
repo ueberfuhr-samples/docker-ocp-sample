@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Root",
+  "definitions": {
+    "Root": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "petclinicApp": {
+          "$ref": "#/definitions/PetclinicApp"
+        },
+        "petclinicDatabase": {
+          "$ref": "#/definitions/PetclinicDatabase"
+        }
+      },
+      "required": [
+        "petclinicApp",
+        "petclinicDatabase"
+      ],
+      "title": "Root Element"
+    },
+    "PetclinicApp": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/PetClinicAppConfig"
+        },
+        "route": {
+          "$ref": "#/definitions/Route"
+        }
+      },
+      "required": [
+        "image",
+        "config",
+        "route"
+      ],
+      "title": "PetclinicApp"
+    },
+    "PetClinicAppConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "profiles"
+      ],
+      "title": "Config"
+    },
+    "Route": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {
+          "enum": ["http", "https"]
+        },
+        "domain": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-_]+$"
+        },
+        "host": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-_]+(\\.[a-zA-Z0-9-_]+)+$"
+        }
+      },
+      "required": [
+        "domain",
+        "host",
+        "protocol"
+      ],
+      "title": "URL"
+    },
+    "PetclinicDatabase": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/PetclinicDatabaseConfig"
+        }
+      },
+      "required": [
+        "image",
+        "config"
+      ],
+      "title": "PetclinicDatabase"
+    },
+    "PetclinicDatabaseConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "storage": {
+          "$ref": "#/definitions/Storage"
+        },
+        "credential": {
+          "$ref": "#/definitions/Credential"
+        }
+      },
+      "required": [
+        "name",
+        "storage"
+      ],
+      "title": "Config"
+    },
+    "Storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "claimName": {
+          "type": "string"
+        },
+        "mountPath": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "claimName"
+      ],
+      "title": "Volume"
+    },
+    "Credential": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+      ],
+      "title": "Credentials"
+    }
+  }
+}
