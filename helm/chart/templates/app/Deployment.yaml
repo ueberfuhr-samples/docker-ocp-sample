@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic-deployment
+  labels:
+    app: petclinic
+  annotations:
+    # show connector arrow in UI
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"db"}]'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+      - name: petclinic
+        image: {{.Values.petclinicApp.image | quote}}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CONTEXT_ROOT
+          value: "/"
+        # add logprops profile to get all properties logged out
+        - name: SPRING_PROFILES_ACTIVE
+          value: {{range $index, $element := .Values.petclinicApp.config.profiles}}{{if $index}},{{end}}{{$element}}{{end}}
+        # activate this to get trace logging enabled for Hibernate
+        #- name: SPRING_APPLICATION_JSON
+        #  value: '{"logging":{"level":{"org":{"hibernate":"TRACE"}}}}'
+        - name: DB_DS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: username
+        - name: DB_DS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+        - name: DB_DS_DRIVERCLASS
+          valueFrom:
+            configMapKeyRef:
+              name: app-settings
+              key: database.driver
+        - name: DB_JPA_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: app-settings
+              key: database.type
+        - name: DB_JPA_DATABASE_PLATFORM
+          valueFrom:
+            configMapKeyRef:
+              name: app-settings
+              key: database.dialect
+        - name: DB_DS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-settings
+              key: database.url
+        - name: PROBES_CONTEXT_ROOT
+          value: "/"
+        - name: PROBES_PORT
+          value: "8081"
+        livenessProbe:
+          httpGet:
+            port: 8081
+            path: "/health/liveness"
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        readinessProbe:
+          httpGet:
+            port: 8081
+            path: "/health/readiness"
+          initialDelaySeconds: 30
+          periodSeconds: 60
+

@@ -1,0 +1,183 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Root",
+  "definitions": {
+    "Root": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "petclinicApp": {
+          "$ref": "#/definitions/PetclinicApp"
+        },
+        "petclinicDatabase": {
+          "$ref": "#/definitions/PetclinicDatabase"
+        },
+        "cluster": {
+          "$ref": "#/definitions/Cluster"
+        }
+      },
+      "required": [
+        "petclinicApp",
+        "petclinicDatabase",
+        "cluster"
+      ],
+      "title": "Root Element"
+    },
+    "PetclinicApp": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/PetClinicApp.Config"
+        },
+        "route": {
+          "$ref": "#/definitions/PetClinicApp.Route"
+        }
+      },
+      "required": [
+        "image",
+        "config",
+        "route"
+      ],
+      "title": "PetclinicApp"
+    },
+    "PetClinicApp.Config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "profiles"
+      ],
+      "title": "Config"
+    },
+    "PetClinicApp.Route": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {
+          "enum": ["http", "https"]
+        },
+        "subdomain": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-_]+$"
+        }
+      },
+      "required": [
+        "subdomain",
+        "protocol"
+      ],
+      "title": "URL"
+    },
+    "PetclinicDatabase": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/PetclinicDatabase.Config"
+        },
+        "service": {
+          "$ref": "#/definitions/PetclinicDatabase.Service"
+        }
+      },
+      "required": [
+        "image",
+        "config",
+        "service"
+      ],
+      "title": "PetclinicDatabase"
+    },
+    "PetclinicDatabase.Config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "storage": {
+          "$ref": "#/definitions/PetclinicDatabase.Storage"
+        },
+        "credential": {
+          "$ref": "#/definitions/PetclinicDatabase.Credential"
+        }
+      },
+      "required": [
+        "name",
+        "storage"
+      ],
+      "title": "Config"
+    },
+    "PetclinicDatabase.Storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "claimName": {
+          "type": "string"
+        },
+        "mountPath": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "claimName"
+      ],
+      "title": "Volume"
+    },
+    "PetclinicDatabase.Service": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "port": {
+          "type": "integer",
+          "minimum": 30000,
+          "maximum": 32767
+        }
+      },
+      "required": [
+        "port"
+      ],
+      "title": "Service"
+    },
+    "PetclinicDatabase.Credential": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+      ],
+      "title": "Credentials"
+    },
+    "Cluster": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "domain": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-_]+(\\.[a-zA-Z0-9-_]+)+$"
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "title": "Cluster"
+    }
+  }
+}

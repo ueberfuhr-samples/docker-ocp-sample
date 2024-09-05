@@ -1,0 +1,25 @@
+petclinicDatabase:
+  image: "ralfueberfuhr/spring-petclinic-db:latest"
+  config:
+    name: "petlinic"
+    storage:
+      claimName: "postgres-pvc"
+#      mountPath: "/var/lib/postgresql/data"
+# this is optional - if not specified, it is randomly created
+    credential:
+      username: "user"
+#      password: ""
+  service:
+    port: 30001
+petclinicApp:
+  image: "ralfueberfuhr/spring-petclinic-rest:latest"
+  config:
+    profiles:
+      - cloud
+      - spring-data-jpa
+      - logprops
+  route:
+    protocol: "http"
+    subdomain: "petclinic"
+cluster:
+  domain: "place-your-ocp-cluster-domain.here"

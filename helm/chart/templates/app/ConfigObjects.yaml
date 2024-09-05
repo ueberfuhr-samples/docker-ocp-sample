@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-settings
+data:
+  database.name: "{{.Values.petclinicDatabase.config.name}}"
+  database.driver: "org.postgresql.Driver"
+  database.type: "POSTGRESQL"
+  database.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+  database.url: "jdbc:postgresql://database.{{.Values.cluster.domain}}:{{.Values.petclinicDatabase.service.port}}/{{.Values.petclinicDatabase.config.name}}"
