@@ -156,6 +156,7 @@ jobs:
           path: helm
       # https://github.com/appany/helm-oci-chart-releaser/blob/main/README.md
       - name: Build & Push
+        if: github.event_name != 'pull_request'
         uses: appany/helm-oci-chart-releaser@v0.3.0
         with:
           name: spring-petclinic-oci
