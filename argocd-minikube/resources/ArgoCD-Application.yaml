@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: petclinic
+  namespace: petclinic
+spec:
+  destination:
+    namespace: petclinic
+    server: https://127.0.0.1
+  project: default
+  source:
+    path: apps/bgd/overlays/bgd
+    repoURL: https://github.com/ueberfuhr-samples/docker-ocp-sample
+    targetRevision: minikube
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
