@@ -66,4 +66,5 @@ a host architecture that is equal to the runtime architecture.
 
 ## Deploy to K8s / OpenShift
 
-See the instructions [here](openshift/app/README.md).
+To deploy Kubernetes resources manually, see the instructions [here](openshift/app/README.md).
+Alternatively, we can use [Helm](helm/README.md).
