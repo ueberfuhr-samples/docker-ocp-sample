@@ -33,12 +33,23 @@ helm install pgo oci://registry.developers.crunchydata.com/crunchydata/pgo -n op
 
 ### Create Helm Chart
 
-We first need to create a Helm Chart. For this, we need
- - a `Chart.yaml` file providing general chart settings
- - a `values.yaml` file providing parameters that can be replaced in the templates
- - a `templates` folder containing the Kubernetes YAMLs that may contain placeholders
+We first need to create a Helm Chart. This can easily be done by invoking
+
+```bash
+helm create <chart-name>
+```
+
+A Helm chart contains at least the following artifacts:
+ - a [`Chart.yaml`](chart/Chart.yaml) file providing general chart settings
+ - a [`values.yaml`](chart/values.yaml) file providing parameters that can be replaced in the templates
+ - a [`templates`](chart/templates) folder containing the Kubernetes YAMLs that may contain placeholders
    that are replaced by the values in the `values.yaml` file
    (those files are treated as [Go templates](https://pkg.go.dev/text/template))
+Optionally, it can also contain
+  - a [README](chart/README.md)
+  - some [notes](chart/templates/NOTES.txt) that are displayed after installation
+  - a [JSON schema](chart/values.schema.json) to describe the `values.yaml`
+  - [staging-specific YAMLs](chart/ENV_LOCAL_CRC.yaml) to overwrite values from `values.yaml`
 
 We can find details in the [Helm Documentation](https://helm.sh/docs/topics/charts/).
 
