@@ -1,5 +1,5 @@
 apiVersion: v2
-name: petclinic-oci
+name: spring-petclinic-oci # the name of the repository in DockerHub
 version: 0.0.1 # the version of this Chart
 description: Petclinic Chart
 type: application #  or library

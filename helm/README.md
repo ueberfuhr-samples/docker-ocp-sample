@@ -76,3 +76,17 @@ helm install petclinic . --values=ENV_LOCAL_CRC.yaml -n "<openshift-project>"
 
 We can create OCI image and push them to the container image registry. This allows to deliver and re-use Helm Charts.
 
+```bash
+helm package .
+# Successfully packaged chart and saved it to: <...>/spring-petclinic-oci-0.0.1.tgz
+
+# Login and push to DockerHub (https://docs.docker.com/docker-hub/oci-artifacts/)
+echo "<password>" | helm registry login registry-1.docker.io -u <user> --password-stdin
+helm push spring-petclinic-oci-0.0.1.tgz oci://registry-1.docker.io/<your-namespace>
+```
+
+We can then install the Kubernetes resources with this command:
+
+```bash
+helm install petclinic oci://registry-1.docker.io/<your-namespace>/spring-petclinic-oci --values=ENV_LOCAL_CRC.yaml -n "<openshift-project>"
+```

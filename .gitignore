@@ -5,7 +5,7 @@ target/*
 .idea
 *.iml
 /target
-
+**/*.tgz
 generated/
 
 # Easier branch switching

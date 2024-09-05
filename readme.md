@@ -67,4 +67,9 @@ a host architecture that is equal to the runtime architecture.
 ## Deploy to K8s / OpenShift
 
 To deploy Kubernetes resources manually, see the instructions [here](openshift/app/README.md).
-Alternatively, we can use [Helm](helm/README.md).
+
+Alternatively, we can use [Helm](helm/README.md), e.g.
+```bash
+# install into OpenShift Local Container (CRC) - see https://github.com/crc-org/crc
+helm install petclinic oci://registry-1.docker.io/ralfueberfuhr/spring-petclinic-oci --values=ENV_LOCAL_CRC.yaml -n "<openshift-project>"
+```
