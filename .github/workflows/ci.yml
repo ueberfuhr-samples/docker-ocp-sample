@@ -43,6 +43,11 @@ jobs:
         with:
           name: container
           path: docker/**
+      - name: Upload Helm Chart Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: helmchart
+          path: helm/**
       - name: Upload Database Configuration Files
         uses: actions/upload-artifact@v4
         with:
@@ -139,3 +144,24 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
       - name: Write Summary
         run: echo "Successfully built container image 'ralfueberfuhr/spring-petclinic-db:${{ env.PROJECT_VERSION }}'" >> $GITHUB_STEP_SUMMARY
+  build-oci-container:
+    needs:
+      - build-app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore Helm Chart Files
+        uses: actions/download-artifact@v4
+        with:
+          name: helmchart
+          path: helm
+      # https://github.com/appany/helm-oci-chart-releaser/blob/main/README.md
+      - name: Build & Push
+        uses: appany/helm-oci-chart-releaser@v0.3.0
+        with:
+          name: spring-petclinic-oci
+          repository: ralfueberfuhr
+          tag: 0.0.1
+          path: helm/chart
+          registry: registry-1.docker.io
+          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
