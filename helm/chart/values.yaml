@@ -9,6 +9,8 @@ petclinicDatabase:
     credential:
       username: "user"
 #      password: ""
+  service:
+    port: 30001
 petclinicApp:
   image: "ralfueberfuhr/spring-petclinic-rest:latest"
   config:
@@ -17,6 +19,7 @@ petclinicApp:
       - spring-data-jpa
       - logprops
   route:
-    protocol: "https"
-    domain: "petclinic"
-    host: "place-your-ocp-cluster-domain.here"
+    protocol: "http"
+    subdomain: "petclinic"
+cluster:
+  domain: "place-your-ocp-cluster-domain.here"

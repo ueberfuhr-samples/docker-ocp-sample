@@ -28,9 +28,7 @@ spec:
           value: "/"
         # add logprops profile to get all properties logged out
         - name: SPRING_PROFILES_ACTIVE
-          value: {{range $index, $element := .Values.petclinicApp.config.profiles}}
-                   {{if $index}},{{end}}{{$element}}
-                 {{end}}
+          value: {{range $index, $element := .Values.petclinicApp.config.profiles}}{{if $index}},{{end}}{{$element}}{{end}}
         # activate this to get trace logging enabled for Hibernate
         #- name: SPRING_APPLICATION_JSON
         #  value: '{"logging":{"level":{"org":{"hibernate":"TRACE"}}}}'

@@ -7,4 +7,4 @@ data:
   database.driver: "org.postgresql.Driver"
   database.type: "POSTGRESQL"
   database.dialect: "org.hibernate.dialect.PostgreSQLDialect"
-  database.url: "jdbc:postgresql://database.{{.Values.petclinicApp.route.host}}:30001/{{.Values.petclinicDatabase.config.name}}"
+  database.url: "jdbc:postgresql://database.{{.Values.cluster.domain}}:{{.Values.petclinicDatabase.service.port}}/{{.Values.petclinicDatabase.config.name}}"

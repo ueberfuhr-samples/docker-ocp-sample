@@ -1,1 +1,0 @@
-Just open "{{.Values.petclinicApp.route.protocol}}://{{.Values.petclinicApp.route.domain}}.{{.Values.petclinicApp.route.host}}" in the browser.

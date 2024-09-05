@@ -31,6 +31,8 @@ helm install pgo oci://registry.developers.crunchydata.com/crunchydata/pgo -n op
 
 ## Steps to install the application
 
+### Create Helm Chart
+
 We first need to create a Helm Chart. For this, we need
  - a `Chart.yaml` file providing general chart settings
  - a `values.yaml` file providing parameters that can be replaced in the templates
@@ -40,14 +42,26 @@ We first need to create a Helm Chart. For this, we need
 
 We can find details in the [Helm Documentation](https://helm.sh/docs/topics/charts/).
 
-The Kubernetes YAML templates need to be transferred to Go templates.
-We can find a good tutorial in the [Red Hat Blog](https://www.redhat.com/en/blog/from-templates-to-openshift-helm-charts). 
+### Migrate Kubernetes YAMLs to Go Templates
 
-The database service must be a `NodePort`, i.e. it is not available via a static IP, but a static port number (between 30000 and 32767).
-(for details, see this [sample solution](https://stackoverflow.com/questions/67926772/how-to-connect-to-ibm-mq-deployed-to-openshift/67927780#67927780).)
+The Kubernetes YAML templates need to be transferred to Go templates. This means esp.
+ - replacing [_Kubernetes templates_](https://docs.openshift.com/container-platform/4.16/openshift_images/using-templates.html)
+   by [Go templates](https://pkg.go.dev/text/template)[Go templates](https://pkg.go.dev/text/template).
+   We can find a good tutorial in the [Red Hat Blog](https://www.redhat.com/en/blog/from-templates-to-openshift-helm-charts). 
+ - splitting YAMLs that contain multiple resources - each template must contain only a single Kubernetes resource
+ - using service type `NodePort` for the database service, i.e. it is not available via a static IP,
+   but a static port number (in range `30000..32767`).
+   (for details, see this [sample solution](https://stackoverflow.com/questions/67926772/how-to-connect-to-ibm-mq-deployed-to-openshift/67927780#67927780).)
 
-Then, we can install the helm chart using
+### Install the Helm Chart directly from source
+
+We can install the helm chart with this command:
 ```bash
 # --values overwrites default values (helpful for staging)
 helm install petclinic . --values=ENV_LOCAL_CRC.yaml -n "<openshift-project>"
 ```
+
+### Using an OCI image
+
+We can create OCI image and push them to the container image registry. This allows to deliver and re-use Helm Charts.
+

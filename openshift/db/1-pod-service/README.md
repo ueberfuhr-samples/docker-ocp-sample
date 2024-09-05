@@ -56,6 +56,17 @@ We need a _Deployment_ and a _Service. Installation is as simple as possible:
 oc apply -f Deployment.yaml && oc apply -f Service.yaml
 ```
 
+**Please note:** The service is of default type `ClusterIP`, so we'll get a static IP address that we can
+find out with this command:
+
+```bash
+oc get service petclinic-db-service -o jsonpath='{.spec.clusterIP}'
+```
+
+If this is not possible (e.g. when using [Helm](../../../helm/README.md)), we need to use the service type
+`NodePort`, which will bind to a specific port (in range `32000..32767`), that will be available for every
+subdomain in the cluster. Using a route is not possible because we do not have HTTP traffic here.
+
 ## Access the Database
 
 We can then connect to the database using port forwarding:
