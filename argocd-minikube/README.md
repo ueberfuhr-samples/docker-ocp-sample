@@ -48,5 +48,14 @@ Alternatively, we could use `curl` and go through the ingress:
 curl --resolve "petclinic.devnation:80:$( minikube ip -p gitops )" -i http://petclinic.devnation/api/pettypes
 # MacOS
 minikube tunnel -p gitops # keep it running
-curl --resolve "petclinic.devnation:80:127.0.0.1" -i http://petclinic.devnation/api/pettypes
+curl --resolve "petclinic.devnation:443:127.0.0.1" -i https://petclinic.devnation/api/pettypes --insecure
 ```
+
+> [!IMPORTANT]
+> If we followed the instructions in the tutorial, we patched the `argocd-server` service to be of type
+> `LoadBalancer`, which means that it is published on default HTTP(S) ports too. This might shadow our
+> ingress, so we should patch it back to `ClusterIP`:
+> 
+> ```bash
+> kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "ClusterIP"}}'
+> ```
