@@ -7,7 +7,9 @@ deployment up-to-date with the sources.
 To install ArgoCD into minikube, we follow 
 [this tutorial](https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/01-setup.html).
 
-Then, we run the following commands (using a profile named ``gitops`):
+## Open ArgoCD WebUI
+
+We use the following commands (using a profile named ``gitops`):
 
 ```bash
 # start minikube
@@ -18,10 +20,33 @@ minikube -n "argocd" -p "gitops" service "argocd-server" --url
 # we copy the URL and open it in the browser
 # we can login using username "admin", the password is available with this command:
 kubectl -n "argocd" get secret "argocd-initial-admin-secret" -o jsonpath="{.data.password}" | base64 -d
+# then, we can create a project in the Web UI
+```
+
+## Install the Petclinic sample with the CLI
+
+```bash
 # to login in the CLI, we can use
 argocd login --insecure --grpc-web "localhost:<port>"  --username "admin" --password "<password>"
-# we can then create a project
+# we can then create the project
 kubectl apply -f ArgoCD-Application.yaml
-# after deployment, we can get the application's url
+```
+
+## Use the Petclinic App
+
+We could open the Swagger UI in the browser by
+
+```bash
+# find out the URL
 minikube -n petclinic -p gitops service "petclinic-service" --url
+```
+
+Alternatively, we could use `curl` and go through the ingress: 
+
+```bash
+# Non-Mac
+curl --resolve "petclinic.devnation:80:$( minikube ip -p gitops )" -i http://petclinic.devnation/api/pettypes
+# MacOS
+minikube tunnel -p gitops # keep it running
+curl --resolve "petclinic.devnation:80:127.0.0.1" -i http://petclinic.devnation/api/pettypes
 ```
