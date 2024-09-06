@@ -18,7 +18,7 @@ helm plugin install https://github.com/komodorio/helm-dashboard.git
 # e.g. when using the OpenShift Local Container, after "crc start":
 eval $(crc oc-env) && oc login -u kubeadmin https://api.crc.testing:6443
 # run dashboard
-helm dashboard
+helm dashboard --port 8765
 ```
 
 ## First sample

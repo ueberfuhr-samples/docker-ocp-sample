@@ -76,11 +76,16 @@ helm install petclinic oci://registry-1.docker.io/ralfueberfuhr/spring-petclinic
 
 ## ArgoCD
 
+> [!WARNING]
+> ArgoCD runs slowly in the local CRC on a developer's machine. So it might be easier to switch to
+> Minikube. We can find details [here](argocd-minikube/README.md).
+
 To install ArgoCD into the project, we need to follow the steps described in [this tutorial](https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html).
 The ArgoCD UI is then available under `https://argocd-server-<openshift-project>.apps-crc.testing/`.
 
-**Please note**: The ArgoCD containers request disk-size and memory that the OpenShift node does not provide by default.
-We need to increase disk-size and memory to get the pods form ArgoCD start successfully:
+> [!IMPORTANT]
+> The ArgoCD containers request disk-size and memory that the OpenShift node does not provide by default.
+> We need to increase disk-size and memory to get the pods form ArgoCD start successfully:
 
 ```bash
 # default: 10752 (MB)
@@ -88,6 +93,3 @@ crc config set memory 16128
 # default: 31 (GB)
 crc config set disk-size 62
 ```
-
-Unfortunately, after installing the ArgoCD application, the local CRC runs slowly. So it might be easier to switch to 
-Minikube (see [details](https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/01-setup.html)).
