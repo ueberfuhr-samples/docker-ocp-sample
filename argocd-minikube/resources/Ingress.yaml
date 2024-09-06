@@ -8,7 +8,7 @@ spec:
     - host: petclinic.devnation
       http:
         paths:
-          - path: /petclinic
+          - path: /
             pathType: Prefix
             backend:
               service:
