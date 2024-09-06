@@ -6,7 +6,7 @@ metadata:
   name: petclinic-service
   namespace: petclinic
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8888
       protocol: TCP
