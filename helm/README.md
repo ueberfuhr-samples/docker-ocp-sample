@@ -2,10 +2,11 @@
 
 ## Install Helm locally
 
-**Note:** For Helm, we need extended permissions on the Kubernetes cluster. If we do not have them, we could 
-also install a local Kubernetes-Cluster, e.g.:
- - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
- - [OpenShift Local Container (CRC)](https://github.com/crc-org/crc)
+> [!IMPORTANT]
+> For Helm, we need extended permissions on the Kubernetes cluster. If we do not have them, we could 
+> also install a local Kubernetes-Cluster, e.g.:
+>  - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+>  - [OpenShift Local Container (CRC)](https://github.com/crc-org/crc)
 
 On Mac, we can install the Helm CLI and a Dashboard using these commands:
 
