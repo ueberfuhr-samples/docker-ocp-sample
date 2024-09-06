@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: petclinic
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: argocd-minikube/resources
+    repoURL: https://github.com/ueberfuhr-samples/docker-ocp-sample
+    targetRevision: HEAD
+  destination:
+    namespace: petclinic
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true

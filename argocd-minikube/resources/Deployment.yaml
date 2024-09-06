@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic-deployment
+  labels:
+    app: petclinic
+  namespace: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+      - name: petclinic
+        image: ralfueberfuhr/spring-petclinic-rest:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CONTEXT_ROOT
+          value: "/"
+        # add logprops profile to get all properties logged out
+        # - name: SPRING_PROFILES_ACTIVE
+        #  value: "hsqldb,spring-data-jpa,logprops"
+        # activate this to get trace logging enabled for Hibernate
+        #- name: SPRING_APPLICATION_JSON
+        #  value: '{"logging":{"level":{"org":{"hibernate":"TRACE"}}}}'
