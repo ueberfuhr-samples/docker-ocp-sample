@@ -20,4 +20,6 @@ minikube -n "argocd" -p "gitops" service "argocd-server" --url
 kubectl -n "argocd" get secret "argocd-initial-admin-secret" -o jsonpath="{.data.password}" | base64 -d
 # to login in the CLI, we can use
 argocd login --insecure --grpc-web "localhost:<port>"  --username "admin" --password "<password>"
+# we can then create a project
+kubectl apply -f ArgoCD-Application.yam
 ```
