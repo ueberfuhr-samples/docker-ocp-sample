@@ -8,7 +8,7 @@ spec:
   source:
     path: argocd-minikube/resources
     repoURL: https://github.com/ueberfuhr-samples/docker-ocp-sample
-    targetRevision: feature/argocd
+    targetRevision: HEAD
   destination:
     namespace: petclinic
     server: https://kubernetes.default.svc
