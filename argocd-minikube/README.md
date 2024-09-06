@@ -21,5 +21,7 @@ kubectl -n "argocd" get secret "argocd-initial-admin-secret" -o jsonpath="{.data
 # to login in the CLI, we can use
 argocd login --insecure --grpc-web "localhost:<port>"  --username "admin" --password "<password>"
 # we can then create a project
-kubectl apply -f ArgoCD-Application.yam
+kubectl apply -f ArgoCD-Application.yaml
+# after deployment, we can get the application's url
+minikube -n petclinic -p gitops service "petclinic-service" --url
 ```
