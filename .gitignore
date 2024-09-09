@@ -4,3 +4,5 @@
 /target
 **/*.tgz
 generated/
+**/*.tfstate
+**/*.tfstate.backup
