@@ -2,7 +2,8 @@ target/*
 .settings/*
 .classpath
 .project
-.idea
+.idea/**
+!.idea/icon.png
 *.iml
 /target
 **/*.tgz
