@@ -12,38 +12,32 @@ resource "kubernetes_deployment" "deployment_petclinic" {
     name      = "petclinic-deployment"
     namespace = "petclinic"
   }
-  spec = {
+  spec {
     replicas = 1
-    selector = {
-      matchLabels = {
+    selector {
+      match_labels = {
         app = "petclinic"
       }
     }
-    template = {
-      metadata = {
+    template {
+      metadata {
         labels = {
           app = "petclinic"
         }
       }
-      spec = {
-        containers = [
-          {
-            env = [
-              {
-                name  = "CONTEXT_ROOT"
-                value = "/"
-              },
-            ]
-            image           = "ralfueberfuhr/spring-petclinic-rest:latest"
-            imagePullPolicy = "Always"
-            name            = "petclinic"
-            ports = [
-              {
-                containerPort = 8080
-              },
-            ]
-          },
-        ]
+      spec {
+        container {
+          name              = "petclinic"
+          image             = "ralfueberfuhr/spring-petclinic-rest:latest"
+          image_pull_policy = "Always"
+          env {
+            name  = "CONTEXT_ROOT"
+            value = "/"
+          }
+          port {
+            container_port = 8080
+          }
+        }
       }
     }
   }
@@ -51,22 +45,20 @@ resource "kubernetes_deployment" "deployment_petclinic" {
 
 
 resource "kubernetes_service" "petclinic_service" {
-  metadata = {
+  metadata {
     labels = {
       app = "petclinic"
     }
     name      = "petclinic-service"
     namespace = "petclinic"
   }
-  spec = {
-    type = "LoadBalancer"
-    ports = [
-      {
-        port       = 8888
-        protocol   = "TCP"
-        targetPort = 8080
-      },
-    ]
+  spec {
+    type = "ClusterIP"
+    port {
+      port        = 8888
+      protocol    = "TCP"
+      target_port = 8080
+    }
     selector = {
       app = "petclinic"
     }
@@ -74,33 +66,29 @@ resource "kubernetes_service" "petclinic_service" {
 }
 
 
-resource "kubernetes_ingress" "petclinic_ingress" {
-  metadata = {
+resource "kubernetes_ingress_v1" "petclinic_ingress" {
+  metadata {
     name      = "petclinic-ingress"
     namespace = "petclinic"
   }
-  spec = {
-    rules = [
-      {
-        host = "petclinic.devnation"
-        http = {
-          paths = [
-            {
-              backend = {
-                service = {
-                  name = "petclinic-service"
-                  port = {
-                    "number" = 8888
-                  }
-                }
+  spec {
+    rule {
+      host = "petclinic.devnation"
+      http {
+        path {
+          path      = "/api"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = "petclinic-service"
+              port {
+                number = 8888
               }
-              path     = "/api"
-              pathType = "Prefix"
-            },
-          ]
+            }
+          }
         }
-      },
-    ]
+      }
+    }
   }
 }
 
