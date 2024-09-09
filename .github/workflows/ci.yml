@@ -5,6 +5,14 @@ on:
   pull_request:
     branches:
      - main
+    paths-ignore:
+      - '**/*.md'
+      - '.gitignore'
+      - '.editorconfig'
+      - '.github/workflows/native-image.yml'
+      - 'openshift/**'
+      - 'argocd-minikube/**'
+      - 'terraform/**'
   push:
     branches:
       - main
@@ -14,6 +22,8 @@ on:
       - '.editorconfig'
       - '.github/workflows/native-image.yml'
       - 'openshift/**'
+      - 'argocd-minikube/**'
+      - 'terraform/**'
 jobs:
   build-app:
     runs-on: ubuntu-latest
