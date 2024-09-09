@@ -93,3 +93,7 @@ crc config set memory 16128
 # default: 31 (GB)
 crc config set disk-size 62
 ```
+
+## Terraform
+
+We could also use Terraform. We can find details [here](terraform/README.md).
